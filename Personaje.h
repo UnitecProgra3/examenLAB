@@ -1,6 +1,8 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 
 class Personaje
 {

@@ -1,15 +1,17 @@
 # depslib dependency file v1.0
-1385165748 source:/home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/main.cpp
+1385170294 source:/home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/main.cpp
 	"SDL/SDL.h"
 	"SDL/SDL_image.h"
 	"SDL/SDL_ttf.h"
 	<string>
 	"Personaje.h"
 
-1385164918 source:/home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Personaje.cpp
+1385167783 source:/home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Personaje.cpp
 	"Personaje.h"
 
-1385164901 /home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Personaje.h
+1385167523 /home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Personaje.h
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
 
 1383353753 source:/home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Enemigo.cpp
 	"Enemigo.h"

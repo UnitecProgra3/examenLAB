@@ -13,11 +13,11 @@ void Personaje::dibujar(SDL_Surface*screen)
     SDL_Rect offset;
 
     //Get offsets
-    offset.x = x;
-    offset.y = y;
+    offset.x = x*75;
+    offset.y = y*75;
 
     //Blit
-    SDL_BlitSurface( source, clip, destination, &offset );
+    SDL_BlitSurface( imagen, NULL, screen, &offset );
 }
 
 Personaje::~Personaje()

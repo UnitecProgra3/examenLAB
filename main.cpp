@@ -122,6 +122,79 @@ void clean_up()
     SDL_Quit();
 }
 
+bool puedoLLegar(char tablero[5][5],int x_actual, int y_actual,int pasos, int x_final, int y_final)
+{
+    //Casos base
+    if(pasos<0)
+        return false;
+
+    if(x_actual>=5
+       || y_actual>=5
+       || x_actual<0
+       || y_actual<0)
+       return false;
+
+    if(tablero[y_actual][x_actual]=='#')
+       return false;
+
+    if(x_actual==x_final
+       && y_actual==y_final)
+       return true;
+
+    if(tablero[y_actual][x_actual]=='O')
+        pasos--;
+
+    pasos--;
+
+//    if(tablero[y_actual][x_actual]=='V'
+//       && pasos<=0)
+//        pasos=1;
+
+    return puedoLLegar(tablero,x_actual+1,y_actual,pasos,x_final,y_final)
+            || puedoLLegar(tablero,x_actual-1,y_actual,pasos,x_final,y_final)
+            || puedoLLegar(tablero,x_actual,y_actual+1,pasos,x_final,y_final)
+            || puedoLLegar(tablero,x_actual,y_actual-1,pasos,x_final,y_final);
+}
+
+void marcar(char tablero[5][5],char tablero_de_pasos[5][5],int x_actual, int y_actual,int pasos)
+{
+    //Casos base
+    if(pasos<0)
+        return;
+
+    if(x_actual>=5
+       || y_actual>=5
+       || x_actual<0
+       || y_actual<0)
+       return;
+
+    if(tablero[y_actual][x_actual]=='#')
+       return;
+
+    tablero_de_pasos[y_actual][x_actual]='P';
+
+    if(tablero[y_actual][x_actual]=='O')
+        pasos--;
+
+    pasos--;
+
+//    if(tablero[y_actual][x_actual]=='V'
+//       && pasos<=0)
+//        pasos=1;
+
+    marcar(tablero,tablero_de_pasos,x_actual+1,y_actual,pasos);
+    marcar(tablero,tablero_de_pasos,x_actual-1,y_actual,pasos);
+    marcar(tablero,tablero_de_pasos,x_actual,y_actual+1,pasos);
+    marcar(tablero,tablero_de_pasos,x_actual,y_actual-1,pasos);
+}
+
+void limpiar(char tablero_de_pasos[5][5])
+{
+    for(int x=0;x<5;x++)
+        for(int y=0;y<5;y++)
+            tablero_de_pasos[y][x]=' ';
+}
+
 int main( int argc, char* args[] )
 {
     //Quit flag
@@ -145,24 +218,34 @@ int main( int argc, char* args[] )
     leftMessage = TTF_RenderText_Solid( font, "Left was pressed", textColor );
     rightMessage = TTF_RenderText_Solid( font, "Right was pressed", textColor );
 
-    //Apply the background
-    apply_surface( 0, 0, background, screen );
 
-    SDL_Surface* entrada = load_image("tablero/entrada.png");
-    SDL_Surface* salida = load_image("tablero/salida.png");
-    SDL_Surface* llave = load_image("tablero/llave.png");
+
     SDL_Surface* pasillo = load_image("tablero/pasillo.png");
     SDL_Surface* muro = load_image("tablero/muro.png");
     SDL_Surface* cursor = load_image("tablero/cursor.png");
+    SDL_Surface* obstaculo = load_image("tablero/obstaculo.png");
+    SDL_Surface* ventaja = load_image("tablero/ventaja.png");
 
-    char tablero[5][5]={{' ','#',' ',' ',' '},
-                        {'E','#',' ','#','S'},
+    char tablero[5][5]={{' ','#',' ','O','V'},
                         {' ','#',' ','#',' '},
-                        {' ','#',' ','#','#'},
-                        {' ',' ',' ',' ','L'}};
+                        {'V','#',' ','#',' '},
+                        {'V','#',' ','#','#'},
+                        {' ','O','O',' ',' '}};
+
+    char tablero_de_pasos[5][5]={{' ',' ',' ',' ',' '},
+                                 {' ',' ',' ',' ',' '},
+                                 {' ',' ',' ',' ',' '},
+                                 {' ',' ',' ',' ',' '},
+                                 {' ',' ',' ',' ',' '}};
+
+    SDL_Surface* pasos_surface = load_image("pasos.png");
 
     SDL_Surface* personaje_surface = load_image("personaje.png");
-    Personaje personaje(2,3);
+    Personaje personaje(2,3,personaje_surface);
+
+    SDL_Surface* cursor_surface = load_image("cursor.png");
+    int cursor_x=0;
+    int cursor_y=0;
 
     //While the user hasn't quit
     while( quit == false )
@@ -176,10 +259,28 @@ int main( int argc, char* args[] )
                 //Set the proper message surface
                 switch( event.key.keysym.sym )
                 {
-                    case SDLK_UP: message = upMessage; break;
-                    case SDLK_DOWN: message = downMessage; break;
-                    case SDLK_LEFT: message = leftMessage; break;
-                    case SDLK_RIGHT: message = rightMessage; break;
+                    case SDLK_UP:
+                        cursor_y--;
+                    break;
+                    case SDLK_DOWN:
+                        cursor_y++;
+                    break;
+                    case SDLK_LEFT:
+                        cursor_x--;
+                    break;
+                    case SDLK_RIGHT:
+                        cursor_x++;
+                    break;
+                    case SDLK_RETURN:
+                        if(puedoLLegar(tablero,personaje.x,personaje.y,3,cursor_x,cursor_y))
+                        {
+                            personaje.x=cursor_x;
+                            personaje.y=cursor_y;
+
+                            limpiar(tablero_de_pasos);
+                            marcar(tablero,tablero_de_pasos,personaje.x,personaje.y,3);
+                        }
+                    break;
                 }
             }
 
@@ -190,6 +291,9 @@ int main( int argc, char* args[] )
                 quit = true;
             }
         }
+
+        //Apply the background
+        apply_surface( 0, 0, background, screen );
 
         //If a message needs to be displayed
         if( message != NULL )
@@ -207,19 +311,24 @@ int main( int argc, char* args[] )
         for(int x=0;x<5;x++)
             for(int y=0;y<5;y++)
             {
-                if(tablero[y][x]=='E')
-                    apply_surface(x*75,y*75,entrada,screen);
-                if(tablero[y][x]=='S')
-                    apply_surface(x*75,y*75,salida,screen);
-                if(tablero[y][x]=='L')
-                    apply_surface(x*75,y*75,llave,screen);
                 if(tablero[y][x]==' ')
                     apply_surface(x*75,y*75,pasillo,screen);
                 if(tablero[y][x]=='#')
                     apply_surface(x*75,y*75,muro,screen);
+                if(tablero[y][x]=='O')
+                    apply_surface(x*75,y*75,obstaculo,screen);
+                if(tablero[y][x]=='V')
+                    apply_surface(x*75,y*75,ventaja,screen);
             }
 
-        apply_surface(personaje.x*75,personaje.y*75,personaje_surface,screen);
+        for(int x=0;x<5;x++)
+            for(int y=0;y<5;y++)
+                if(tablero_de_pasos[y][x]=='P')
+                    apply_surface(x*75,y*75,pasos_surface,screen);
+
+        personaje.dibujar(screen);
+
+        apply_surface(cursor_x*75,cursor_y*75,cursor_surface,screen);
 
         //Update the screen
         if( SDL_Flip( screen ) == -1 )
