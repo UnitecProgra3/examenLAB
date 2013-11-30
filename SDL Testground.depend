@@ -35,3 +35,67 @@
 1383356301 /home/turupawn/Projects/CodeBlocks/Progra 3/Ejemplos/SDL Testground/Bomba.h
 	"Enemigo.h"
 
+1385451136 source:c:\users\guillermo sandoval\documents\github\labparcial3\main.cpp
+	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
+	<iostream>
+	"Personaje.h"
+
+1385188570 c:\users\guillermo sandoval\documents\github\labparcial3\personaje.h
+	"SDL.h"
+	"SDL_image.h"
+
+1385187540 source:c:\users\guillermo sandoval\documents\github\labparcial3\personaje.cpp
+	"Personaje.h"
+
+1385192912 source:c:\users\guillermo sandoval\documents\github\labparcial3\mago.cpp
+	"mago.h"
+
+1385192884 c:\users\guillermo sandoval\documents\github\labparcial3\mago.h
+	"SDL.h"
+	"SDL_image.h"
+
+1385451482 source:c:\users\marginy\desktop\labparcial3\main.cpp
+	"SDL.h"
+	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
+	<iostream>
+	"Personaje.h"
+
+1385184972 c:\users\marginy\desktop\labparcial3\personaje.h
+	"SDL.h"
+	"SDL_image.h"
+
+1385183942 source:c:\users\marginy\desktop\labparcial3\personaje.cpp
+	"Personaje.h"
+
+1385775152 source:c:\users\mario ibarra\desktop\pro\main.cpp
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+	"SDL/SDL_ttf.h"
+	"SDL/SDL_mixer.h"
+	<vector>
+	<string>
+	<iostream>
+	"Personaje.h"
+	"CAP.h"
+
+1385683721 c:\users\mario ibarra\desktop\pro\personaje.h
+	<vector>
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+
+1385685033 source:c:\users\mario ibarra\desktop\pro\personaje.cpp
+	"Personaje.h"
+
+1385764946 source:c:\users\mario ibarra\desktop\pro\cap.cpp
+	"CAP.h"
+
+1385764940 c:\users\mario ibarra\desktop\pro\cap.h
+	<vector>
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+
